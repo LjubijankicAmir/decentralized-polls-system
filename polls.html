@@ -16,11 +16,11 @@
             <form id="create-poll-form">
                 <div class="mb-3">
                     <label for="poll-title" class="form-label">Poll Title</label>
-                    <input type="text" class="form-control" id="poll-title" required>
+                    <input type="text" class="form-control" id="poll-title" placeholder="Title of the poll" required>
                 </div>
                 <div class="mb-3">
                     <label for="poll-options" class="form-label">Poll Options (comma-separated)</label>
-                    <input type="text" class="form-control" id="poll-options" required>
+                    <input type="text" class="form-control" id="poll-options" placeholder="Option 1, Option2" required>
                 </div>
                 <button type="submit" class="btn btn-success">Create Poll</button>
             </form>
@@ -29,6 +29,7 @@
         </div>
         <div id="user-section" style="display:none;">
             <h2>Available Polls</h2>
+            <h6 style="font-weight: 100;">A user can only vote once on each poll. If the MetaMask is returning a warning or an error, it probably means you already voted.</h6>
             <div id="poll-list-user"></div>
         </div>
     </div>

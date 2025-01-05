@@ -28,16 +28,36 @@ async function loadPollsForAdmin() {
   const pollCount = await contract.methods.pollCounter().call();
   const pollList = document.getElementById("poll-list");
   pollList.innerHTML = "";
+
   for (let i = 1; i <= pollCount; i++) {
-    const poll = await contract.methods.getPoll(i).call();
-    const pollDiv = document.createElement("div");
-    pollDiv.className = "mb-3";
-    pollDiv.innerHTML = `
-                    <h4>${poll[0]}</h4>
-                    <p>${poll[1].join(", ")}</p>
-                    <button class="btn btn-danger" onclick="deletePoll(${i})">Delete</button>
-                `;
-    pollList.appendChild(pollDiv);
+      try {
+          const poll = await contract.methods.getPoll(i).call();
+          const voteCounts = poll[2].map((vote) => parseInt(vote, 10));
+
+          let totalVotes = 0;
+          for (let j = 0; j < voteCounts.length; j++) {
+              totalVotes += voteCounts[j];
+          }
+
+          const pollDiv = document.createElement("div");
+          pollDiv.className = "card mb-3";
+          pollDiv.innerHTML = `
+              <div class="card-body">
+                  <h4 class="card-title">${poll[0]} - ${totalVotes} vote(s)</h4>
+                  <ul class="list-group list-group-flush" style="margin-top: 32px">
+                      ${poll[1].map((option, index) => `
+                          <li class="list-group-item">
+                              ${option} - ${voteCounts[index]} votes
+                          </li>
+                      `).join('')}
+                  </ul>
+                  <button class="btn btn-danger mt-3 delete-poll-btn" onclick="deletePoll(${i})">Delete</button>
+              </div>
+          `;
+          pollList.appendChild(pollDiv);
+      } catch (error) {
+          console.error(`Error fetching poll ${i}:`, error);
+      }
   }
 }
 
@@ -70,7 +90,7 @@ async function loadPollsForUser() {
                         .map((option, index) => {
                           const votePercentage =
                             totalVotes > 0 ? ((voteCounts[index] / totalVotes) * 100).toFixed(1): 0;
-                          return `<li class="list-group-item" style="border: 0px; font-weight: bold;">
+                          return `<li class="list-group-item">
                                   ${option}
                                   <div class="progress">
                                       <div class="progress-bar" role="progressbar" style="width: ${votePercentage}%;" aria-valuenow="${votePercentage}" aria-valuemin="0" aria-valuemax="100">${votePercentage}%</div>
