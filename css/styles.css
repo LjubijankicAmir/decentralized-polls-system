@@ -1,0 +1,31 @@
+body {
+    background-color: #222336;
+}
+
+p {
+    color: #e6e3fb;
+    margin-bottom: 10px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #e6e3fb;
+    margin-bottom: 20px;
+}
+
+#title {
+    font-size: 50px;
+    margin-bottom: 100px;
+}
+
+button.btn-primary {
+    background-color: #222336;
+    font-size: 24px;
+    color: #e6e3fb;
+    border-color: #e6e3fb;
+}
+
+button.btn-primary:hover {
+    background-color: #444466;
+    color: #e6e3fb;
+    border-color: #e6e3fb;
+}
